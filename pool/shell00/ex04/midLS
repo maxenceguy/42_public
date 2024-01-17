@@ -1,0 +1,2 @@
+#!/bin/sh
+ls -I '.*' -c -lt -p -m
