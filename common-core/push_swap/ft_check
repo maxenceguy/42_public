@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 echo -e "\e[1;33;4;5mPUSHSWAP CHECKER\e[0m"
 #Norminette
 echo -e "\e[97mNorminette:"
