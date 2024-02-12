@@ -31,6 +31,7 @@ This project is part of the curriculum at 42 Lyon. It involves sorting algorithm
 
 ## Personal Checker
   I've also created a personal checker for additional validation.
+  1st install checker_linux from intra42 project page. (edit name in checker_linux)
   To run it:
   ```powershell
   chmod +x ./ft_checker
