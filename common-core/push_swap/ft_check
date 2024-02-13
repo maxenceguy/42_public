@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 echo -e "\e[1;33;4;5mPUSHSWAP CHECKER\e[0m"
 #Norminette
 echo -e "\e[97mNorminette:"
@@ -208,77 +207,193 @@ fi
 unset ARG
 
 
-# Test simple version
+# Test simple version 5
 echo -e "\n\e[97mSimple version, 5 numbers:"
-ARG="1 5 2 4 3"
-if [ "$(./push_swap $ARG | ./checker_linux $ARG)" == "OK" ]; then
-    if [ "$(./push_swap $ARG | wc -l)" -le 12 ]; then
-        echo -e "\e[32m 1: OK"
+
+for i in {1..120}; do
+    case $i in
+        1) ARG="1 2 3 4 5";;
+        2) ARG="1 2 3 5 4";;
+        3) ARG="1 2 4 3 5";;
+        4) ARG="1 2 4 5 3";;
+        5) ARG="1 2 5 3 4";;
+        6) ARG="1 2 5 4 3";;
+        7) ARG="1 3 2 4 5";;
+        8) ARG="1 3 2 5 4";;
+        9) ARG="1 3 4 2 5";;
+        10) ARG="1 3 4 5 2";;
+        11) ARG="1 3 5 2 4";;
+        12) ARG="1 3 5 4 2";;
+        13) ARG="1 4 2 3 5";;
+        14) ARG="1 4 2 5 3";;
+        15) ARG="1 4 3 2 5";;
+        16) ARG="1 4 3 5 2";;
+        17) ARG="1 4 5 2 3";;
+        18) ARG="1 4 5 3 2";;
+        19) ARG="1 5 2 3 4";;
+        20) ARG="1 5 2 4 3";;
+        21) ARG="1 5 3 2 4";;
+        22) ARG="1 5 3 4 2";;
+        23) ARG="1 5 4 2 3";;
+        24) ARG="1 5 4 3 2";;
+        25) ARG="2 1 3 4 5";;
+        26) ARG="2 1 3 5 4";;
+        27) ARG="2 1 4 3 5";;
+        28) ARG="2 1 4 5 3";;
+        29) ARG="2 1 5 3 4";;
+        30) ARG="2 1 5 4 3";;
+        31) ARG="2 3 1 4 5";;
+        32) ARG="2 3 1 5 4";;
+        33) ARG="2 3 4 1 5";;
+        34) ARG="2 3 4 5 1";;
+        35) ARG="2 3 5 1 4";;
+        36) ARG="2 3 5 4 1";;
+        37) ARG="2 4 1 3 5";;
+        38) ARG="2 4 1 5 3";;
+        39) ARG="2 4 3 1 5";;
+        40) ARG="2 4 3 5 1";;
+        41) ARG="2 4 5 1 3";;
+        42) ARG="2 4 5 3 1";;
+        43) ARG="2 5 1 3 4";;
+        44) ARG="2 5 1 4 3";;
+        45) ARG="2 5 3 1 4";;
+        46) ARG="2 5 3 4 1";;
+        47) ARG="2 5 4 1 3";;
+        48) ARG="2 5 4 3 1";;
+        49) ARG="3 1 2 4 5";;
+        50) ARG="3 1 2 5 4";;
+        51) ARG="3 1 4 2 5";;
+        52) ARG="3 1 4 5 2";;
+        53) ARG="3 1 5 2 4";;
+        54) ARG="3 1 5 4 2";;
+        55) ARG="3 2 1 4 5";;
+        56) ARG="3 2 1 5 4";;
+        57) ARG="3 2 4 1 5";;
+        58) ARG="3 2 4 5 1";;
+        59) ARG="3 2 5 1 4";;
+        60) ARG="3 2 5 4 1";;
+        61) ARG="3 4 1 2 5";;
+        62) ARG="3 4 1 5 2";;
+        63) ARG="3 4 2 1 5";;
+        64) ARG="3 4 2 5 1";;
+        65) ARG="3 4 5 1 2";;
+        66) ARG="3 4 5 2 1";;
+        67) ARG="3 5 1 2 4";;
+        68) ARG="3 5 1 4 2";;
+        69) ARG="3 5 2 1 4";;
+        70) ARG="3 5 2 4 1";;
+        71) ARG="3 5 4 1 2";;
+        72) ARG="3 5 4 2 1";;
+        73) ARG="4 1 2 3 5";;
+        74) ARG="4 1 2 5 3";;
+        75) ARG="4 1 3 2 5";;
+        76) ARG="4 1 3 5 2";;
+        77) ARG="4 1 5 2 3";;
+        78) ARG="4 1 5 3 2";;
+        79) ARG="4 2 1 3 5";;
+        80) ARG="4 2 1 5 3";;
+        81) ARG="4 2 3 1 5";;
+        82) ARG="4 2 3 5 1";;
+        83) ARG="4 2 5 1 3";;
+        84) ARG="4 2 5 3 1";;
+        85) ARG="4 3 1 2 5";;
+        86) ARG="4 3 1 5 2";;
+        87) ARG="4 3 2 1 5";;
+        88) ARG="4 3 2 5 1";;
+        89) ARG="4 3 5 1 2";;
+        90) ARG="4 3 5 2 1";;
+        91) ARG="4 5 1 2 3";;
+        92) ARG="4 5 1 3 2";;
+        93) ARG="4 5 2 1 3";;
+        94) ARG="4 5 2 3 1";;
+        95) ARG="4 5 3 1 2";;
+        96) ARG="4 5 3 2 1";;
+        97) ARG="5 1 2 3 4";;
+        98) ARG="5 1 2 4 3";;
+        99) ARG="5 1 3 2 4";;
+        100) ARG="5 1 3 4 2";;
+        101) ARG="5 1 4 2 3";;
+        102) ARG="5 1 4 3 2";;
+        103) ARG="5 2 1 3 4";;
+        104) ARG="5 2 1 4 3";;
+        105) ARG="5 2 3 1 4";;
+        106) ARG="5 2 3 4 1";;
+        107) ARG="5 2 4 1 3";;
+        108) ARG="5 2 4 3 1";;
+        109) ARG="5 3 1 2 4";;
+        110) ARG="5 3 1 4 2";;
+        111) ARG="5 3 2 1 4";;
+        112) ARG="5 3 2 4 1";;
+        113) ARG="5 3 4 1 2";;
+        114) ARG="5 3 4 2 1";;
+        115) ARG="5 4 1 2 3";;
+        116) ARG="5 4 1 3 2";;
+        117) ARG="5 4 2 1 3";;
+        118) ARG="5 4 2 3 1";;
+        119) ARG="5 4 3 1 2";;
+        120) ARG="5 4 3 2 1";;
+    esac
+
+    number=$((i - 1))
+
+    if [ "$(./push_swap $ARG | ./checker_linux $ARG)" == "OK" ]; then
+        if [ "$(./push_swap $ARG | wc -l)" -le 12 ]; then
+            echo -e "\e[32m $number: OK"
+        else
+            echo -e "\e[31m $number: KO -  more than 12 instructions [$ARG]"
+        fi
     else
-        echo -e "\e[31m 1: KO -  more than 12 instructions [$ARG]"
+        echo -e "\e[31m $number: KO -  Not sorted or error return [$ARG]"
     fi
-else
-    echo -e "\e[31m 1: KO -  Not sort or error return [$ARG]"
-fi
-unset ARG
+
+    unset ARG
+done
 
 ARG="64 -15 13 17 1"
 if [ "$(./push_swap $ARG | ./checker_linux $ARG)" == "OK" ]; then
     if [ "$(./push_swap $ARG | wc -l)" -le 12 ]; then
-        echo -e "\e[32m 2: OK"
+        echo -e "\e[32m 121: OK"
     else
-        echo -e "\e[31m 2: KO -  more than 12 instructions [$ARG]"
+        echo -e "\e[31m 121: KO -  more than 12 instructions [$ARG]"
     fi
 else
-    echo -e "\e[31m 2: KO -  Not sort or error return [$ARG]"
-fi
-unset ARG
-
-ARG="-525 831 203 -634 301"
-if [ "$(./push_swap $ARG | ./checker_linux $ARG)" == "OK" ]; then
-    if [ "$(./push_swap $ARG | wc -l)" -le 12 ]; then
-        echo -e "\e[32m 3: OK"
-    else
-        echo -e "\e[31m 3: KO -  more than 12 instructions [$ARG]"
-    fi
-else
-    echo -e "\e[31m 3: KO -  Not sort or error return [$ARG]"
+    echo -e "\e[31m 121: KO -  Not sort or error return [$ARG]"
 fi
 unset ARG
 
 ARG="5 4 3 2 1"
 if [ "$(./push_swap $ARG | ./checker_linux $ARG)" == "OK" ]; then
     if [ "$(./push_swap $ARG | wc -l)" -le 12 ]; then
-        echo -e "\e[32m 4: OK"
+        echo -e "\e[32m 122: OK"
     else
-        echo -e "\e[31m 4: KO -  more than 12 instructions [$ARG]"
+        echo -e "\e[31m 122: KO -  more than 12 instructions [$ARG]"
     fi
 else
-    echo -e "\e[31m 4: KO -  Not sort or error return [$ARG]"
+    echo -e "\e[31m 122: KO -  Not sort or error return [$ARG]"
 fi
 unset ARG
 
 ARG="2147075445 2146711869 2147115382 2147159802 2146757656"
 if [ "$(./push_swap $ARG | ./checker_linux $ARG)" == "OK" ]; then
     if [ "$(./push_swap $ARG | wc -l)" -le 12 ]; then
-        echo -e "\e[32m 5: OK"
+        echo -e "\e[32m 123: OK"
     else
-        echo -e "\e[31m 5: KO -  more than 12 instructions [$ARG]"
+        echo -e "\e[31m 123: KO -  more than 12 instructions [$ARG]"
     fi
 else
-    echo -e "\e[31m 5: KO -  Not sort or error return [$ARG]"
+    echo -e "\e[31m 123: KO -  Not sort or error return [$ARG]"
 fi
 unset ARG
 
 ARG="-2147429756 -2146706989 -2147366375 -2146603218 -2147238560"
 if [ "$(./push_swap $ARG | ./checker_linux $ARG)" == "OK" ]; then
     if [ "$(./push_swap $ARG | wc -l)" -le 12 ]; then
-        echo -e "\e[32m 6: OK"
+        echo -e "\e[32m 124: OK"
     else
-        echo -e "\e[31m 6: KO -  more than 12 instructions [$ARG]"
+        echo -e "\e[31m 124: KO -  more than 12 instructions [$ARG]"
     fi
 else
-    echo -e "\e[31m 6: KO -  Not sort or error return [$ARG]"
+    echo -e "\e[31m 124: KO -  Not sort or error return [$ARG]"
 fi
 unset ARG
 
