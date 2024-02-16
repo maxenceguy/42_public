@@ -1,4 +1,4 @@
-# Push Minitalk - 42 Lyon
+# Minitalk - 42 Lyon
 
 🚀 Welcome to my Minitalk project repository!
 
