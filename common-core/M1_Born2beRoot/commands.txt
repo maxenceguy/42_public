@@ -1,0 +1,159 @@
+-----------------------------
+     HELP BORN2BEROOT
+-----------------------------
+
+|VM|
+Une Machine Virtuelle est un logiciel capable d'installer et de lancer un OS dans l'OS principal.
+Il utilise une partie des composants du pc afin de pouvoir tourner en meme temps que l'OS d'origine.
+L'intéret d'une VM est de pouvoir utiliser un OS specifique, sans toucher aux partitons du pc. De plus, en cas casse de l'OS, l'ordinateur et l'OS principal sont protégés. 
+
+Choix debian: plus stable et plus simple a configurer grace a apt (package manager)
+
+Rocky est le remplacant de CentOS, hommage a Rocky McGaugh>
+
+RockyOS est plus souvent mis a jour (open source). Donne un acces aux derniers logiciels linux crees
+mais est moins securise. Debian est open source lui aussi mais est un minimum controle
+
+apt et aptitude sont tous les deux des outils de gestions de paquet.
+apt : interface en ligne d instalation, suppression et mise a jour paquet
+aptitude : interface de apt mais en plus recheche etendue, reolution de dependqnce et possibilite de visualiser etat system
+
+
+|LVM (Logical Volume Manager)|
+System d'abstraction qui se place entre le disque dur et les fichiers systemes (OS);
+Il permet de creer des volumes logiques, permetant une meilleure gestion des partitions contenues sur le
+disque. 
+
+|AppArmor|
+Logiciel libre de securite sur linux. Il associe a chaque progrqme un profil de securite
+afin de ne restreiindre les capacite du logiciel.
+Alternative a SeLinux trop dure a configurer.
+
+|UFW|
+pare feu developpe par ubuntu qui se configure en quelques lignes.
+
+
+Interompre monitoring.sh
+(Search with cron for wall)
+
+
+
+Commandes:
+
+verifier l'OS d'activé : lsb_release -a 
+
+check les groupes : getent group
+
+
+Paramètres de mot de passe :
+	Règles d'écriture du mot de passe
+	- sudo apt/apt-get install libpam-pwquality
+	- modification : sudo vim /etc/pam.d/common-password
+	- edit lines 25 26 
+
+	Règles d'expiration du mot de passe
+	- sudo vim /etc/login.defs
+	- modification lignes 165 -> 167
+
+Ajouter un utilisateur :
+	- sudo adduser "name"
+	- sudo usermod -aG "group" "name"
+	- chage -l "name" (verifie l'application des règles de mot de passe sur l'utilisateur)
+
+Ajoute un groupe :
+	- sudo groupadd "name"
+	- getent group (affiche tous les groupes et qui en fait partie)
+
+Verifier le hostname :
+	- hostname
+
+Changer le hostname :
+	- sudo vim /etc/hostname -> changer le nom
+	- sudo nano /etc/hosts -> changer la ligne 2
+
+Verifier les partition :
+	- lsblk
+
+Sudo :
+	Verifier que sudo est installé :
+	- sudo -> un message d'aide apparait
+
+	Ajouter un utilisateur au groupe sudo :
+	- usermod -aG sudo "name"
+
+	Verifier le ficher de log sudo :
+	- sudo cat /var/log/sudo/sudo.log
+
+	Ajouter les droits sudo :
+	- sudo visudo 
+	- dans user privilèges : "name" ALL=(ALL:ALL) ALL
+
+Ssh :
+	verifier l'activation du ssh :
+	- sudo service ssh status | sudo systemctl status ssh -> port 4242 est le seul port a apparaître
+
+	changer le port :
+	- sudo vim /etc/ssh/sshd_config
+	- On change la ligne avec le port.
+	- Verifier les ports : sudo grep Port /etc/ssh/sshd_config
+	- sudo servcie ssh restart
+
+UFW :
+	verifier activation ufw :
+	- sudo ufw status (numbered)
+	- sudo ufw allow ssh , sudo ufw allow 4242
+	Connecter son utilisateur au port ssh :
+	- sudo "user_name"@127.0.0.1 -p 4242
+
+monitoring.sh
+	Le fichier est dans /usr/local/bin/
+	Pour l'afficher toutes les 10min :
+	- sudo crontab -u root -e
+	Cron : utilitaire de planification des tâches. Il automatise l'excution de commandes à intervalle régulier.
+		Minute (0 - 59)   Heure (0 - 23)   Jour du mois (1 - 31)   Mois (1 - 12)   Jour de la semaine (0 - 6, où 0 = dimanche)
+	toutes les 30 sec : 
+	- * * * * * sleep 30 && /chemin/vers/votre/programme
+
+
+Explication :
+Ce script est un script Bash qui recueille diverses informations sur le système et les affiche sur le mur (wall) en tant que message. Voici une explication ligne par ligne :
+
+1. `#!/bin/bash`: C'est la déclaration du shell à utiliser, ici Bash.
+
+2. `arc=$(uname -a)`: Il stocke la sortie de la commande `uname -a` (informations sur le noyau et l'architecture) dans la variable `arc`.
+
+3. `pcpu=$(grep "physical id" /proc/cpuinfo | sort | uniq | wc -l)`: Il compte le nombre de processeurs physiques en utilisant la commande `grep` pour filtrer les lignes contenant "physical id" dans le fichier `/proc/cpuinfo`. Ensuite, `sort` et `uniq` sont utilisés pour éliminer les doublons, et `wc -l` compte le nombre de lignes restantes.
+
+4. `vcpu=$(grep "^processor" /proc/cpuinfo | wc -l)`: Il compte le nombre de processeurs virtuels en utilisant la commande `grep` pour filtrer les lignes commençant par "processor" dans le fichier `/proc/cpuinfo`, puis `wc -l` compte le nombre total de lignes.
+
+5. `fram=$(free -m | awk '$1 == "Mem:" {print $2}')`: Il utilise la commande `free -m` pour obtenir la quantité totale de mémoire physique en mégaoctets, et `awk` est utilisé pour extraire cette information.
+
+6. `uram=$(free -m | awk '$1 == "Mem:" {print $3}')`: Il utilise la commande `free -m` pour obtenir la quantité de mémoire physique utilisée en mégaoctets, et `awk` est utilisé pour extraire cette information.
+
+7. `pram=$(free | awk '$1 == "Mem:" {printf("%.2f"), $3/$2*100}')`: Il calcule le pourcentage de mémoire physique utilisée en utilisant les informations de `free` et `awk` pour effectuer le calcul.
+
+8. `fdisk=$(df -BG | grep '^/dev/' | grep -v '/boot$' | awk '{ft += $2} END {print ft}')`: Il calcule la taille totale du disque en gigaoctets en analysant la sortie de `df -BG` pour les partitions `/dev/` (ignorant celles contenant '/boot'). `awk` est utilisé pour additionner toutes les tailles et afficher le résultat.
+
+9. `udisk=$(df -BM | grep '^/dev/' | grep -v '/boot$' | awk '{ut += $3} END {print ut}')`: Il calcule l'espace disque utilisé en mégaoctets en analysant la sortie de `df -BM` pour les partitions `/dev/` (ignorant celles contenant '/boot'). `awk` est utilisé pour additionner toutes les utilisations et afficher le résultat.
+
+10. `pdisk=$(df -BM | grep '^/dev/' | grep -v '/boot$' | awk '{ut += $3} {ft+= $2} END {printf("%d"), ut/ft*100}')`: Il calcule le pourcentage d'utilisation du disque en utilisant les informations de `df -BM` et `awk` pour effectuer le calcul.
+
+11. `cpul=$(top -bn1 | grep '^%Cpu' | cut -c 9- | xargs | awk '{printf("%.1f%%"), $1 + $3}')`: Il récupère la charge CPU en utilisant la commande `top`, `grep`, `cut`, `xargs`, et `awk` pour extraire et calculer la charge CPU totale.
+
+12. `lb=$(who -b | awk '$1 == "system" {print $3 " " $4}')`: Il récupère la date et l'heure du dernier démarrage du système en utilisant la commande `who -b` et `awk`.
+
+13. `lvmu=$(if [ $(lsblk | grep "lvm" | wc -l) -eq 0 ]; then echo no; else echo yes; fi)`: Il vérifie si LVM (Logical Volume Manager) est utilisé sur le système en comptant le nombre de lignes contenant "lvm" dans la sortie de `lsblk`. Si le nombre est égal à zéro, il affiche "no", sinon "yes".
+
+14. `ctcp=$(ss -neopt state established | wc -l)`: Il compte le nombre de connexions TCP établies en utilisant la commande `ss`.
+
+15. `ulog=$(users | wc -w)`: Il compte le nombre d'utilisateurs connectés en utilisant la commande `users` et `wc -w` pour compter les mots.
+
+16. `ip=$(hostname -I)`: Il obtient l'adresse IP de la machine en utilisant la commande `hostname -I`.
+
+17. `mac=$(ip link show | grep "ether" | awk '{print $2}')`: Il obtient l'adresse MAC de la machine en utilisant la commande `ip link show`, `grep`, et `awk`.
+
+18. `cmds=$(journalctl _COMM=sudo | grep COMMAND | wc -l)`: Il compte le nombre de commandes exécutées avec `sudo` en utilisant `journalctl` et en filtrant par le champ "_COMM=sudo" et en comptant le nombre de lignes contenant "COMMAND".
+
+19. Enfin, le script utilise la commande `wall` pour afficher un message contenant toutes les informations recueillies, formatées de manière lisible.
+
+Note : Ce script nécessite des privilèges d'administration pour accéder à certaines informations système.
